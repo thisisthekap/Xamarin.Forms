@@ -1,6 +1,7 @@
 using System.Collections;
 using System.ComponentModel;
 using Android.Content;
+using Android.Support.V7.Widget;
 using Android.Views;
 using FormsCarouselView = Xamarin.Forms.CarouselView;
 
@@ -172,13 +173,37 @@ namespace Xamarin.Forms.Platform.Android
 			// So we give it an alternate delegate for creating the views
 
 			var oldItemViewAdapter = ItemsViewAdapter;
+			UnsubscribeCollectionItemsSourceChanged(oldItemViewAdapter);
 
 			ItemsViewAdapter = new ItemsViewAdapter<ItemsView, IItemsViewSource>(ItemsView,
 				(view, context) => new SizedItemContentView(Context, GetItemWidth, GetItemHeight));
 
+
 			SwapAdapter(ItemsViewAdapter, false);
 
+			if (ItemsViewAdapter?.ItemsSource is ObservableItemsSource observableItemsSource)
+				observableItemsSource.CollectionItemsSourceChanged += CollectionItemsSourceChanged;
+
 			oldItemViewAdapter?.Dispose();
+		}
+
+		void UnsubscribeCollectionItemsSourceChanged(ItemsViewAdapter<ItemsView, IItemsViewSource> oldItemViewAdapter)
+		{
+			if (oldItemViewAdapter?.ItemsSource is ObservableItemsSource oldObservableItemsSource)
+				oldObservableItemsSource.CollectionItemsSourceChanged -= CollectionItemsSourceChanged;
+		}
+
+		void CollectionItemsSourceChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		{
+			var centerItemIndex = -1;
+
+			if (GetLayoutManager() is LinearLayoutManager linearLayoutManager)
+			{
+				var firstVisibleItemIndex = linearLayoutManager.FindFirstVisibleItemPosition();
+				centerItemIndex = RecyclerExtensions.CalculateCenterItemIndex(firstVisibleItemIndex, this, linearLayoutManager);
+			}
+
+			Carousel.SetCurrentItem(null, centerItemIndex);
 		}
 
 		void UpdateInitialPosition()

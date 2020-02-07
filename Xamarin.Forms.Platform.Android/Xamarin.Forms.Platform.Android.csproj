@@ -113,6 +113,7 @@
     <Compile Include="Extensions\DrawableExtensions.cs" />
     <Compile Include="Extensions\EntryRendererExtensions.cs" />
     <Compile Include="Extensions\FragmentManagerExtensions.cs" />
+    <Compile Include="Extensions\RecyclerExtensions.cs" />
     <Compile Include="Extensions\ScrollViewExtensions.cs" />
     <Compile Include="Extensions\TextAlignmentExtensions.cs" />
     <Compile Include="Extensions\ToolbarExtensions.cs" />
