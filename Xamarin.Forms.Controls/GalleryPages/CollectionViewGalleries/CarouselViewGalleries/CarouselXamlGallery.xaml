@@ -12,14 +12,21 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Slider Margin="5" Value="{Binding Position, Mode=TwoWay}" Maximum="{Binding Count}" />
-        <CarouselView AutomationId="TheCarouselView" x:Name="carousel" ItemsSource="{Binding Items}" Position="{Binding Position}" Grid.Row="1" HeightRequest="400">
+        <StackLayout Orientation="Vertical"  Grid.Row="1">
+            <Label Text="{Binding Path=Position , Source={x:Reference Name=carousel}}"></Label>
+            <Label Text="{Binding Path=CurrentItem.Index , Source={x:Reference Name=carousel}}"></Label>
+            <Label Text="{Binding Selected.Index}"></Label>
+            <Button Command="{Binding RemoveCommand}" Grid.Row="1" Text="{Binding Selected.Index}"></Button>
+        </StackLayout>
+       
+        <CarouselView AutomationId="TheCarouselView" x:Name="carousel" ItemsSource="{Binding Items}" Position="{Binding Position}" Grid.Row="2" CurrentItem="{Binding Selected}" HeightRequest="400">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <gallery:ExampleTemplateCarousel />
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <Frame Margin="15" x:Name="layoutNormal" Grid.Row="3" HeightRequest="150" OutlineColor="#00000088" Padding="5">
+        <!--<Frame Margin="15" x:Name="layoutNormal" Grid.Row="3" HeightRequest="150" OutlineColor="#00000088" Padding="5">
             <Grid>
                 <CarouselView x:Name="carouselNormal" ItemsSource="{Binding Items}" Position="{Binding Position}">
                     <CarouselView.ItemTemplate>
@@ -29,6 +36,6 @@
                     </CarouselView.ItemTemplate>
                 </CarouselView>
             </Grid>
-        </Frame>
+        </Frame>-->
     </Grid>
 </ContentPage>
