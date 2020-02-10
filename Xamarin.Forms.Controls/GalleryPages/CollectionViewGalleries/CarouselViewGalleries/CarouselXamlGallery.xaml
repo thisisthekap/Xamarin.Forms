@@ -3,30 +3,34 @@
     xmlns:gallery="clr-namespace:Xamarin.Forms.Controls.GalleryPages.CollectionViewGalleries.CarouselViewGalleries" xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Xamarin.Forms.Controls.GalleryPages.CollectionViewGalleries.CarouselViewGalleries.CarouselXamlGallery"
     Title="CarouselView Xaml">
-    <Grid Margin="0,50,00,0">
+    <Grid Margin="10,50,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="150" />
         </Grid.RowDefinitions>
         <Slider Margin="5" Value="{Binding Position, Mode=TwoWay}" Maximum="{Binding Count}" />
-        <StackLayout Orientation="Vertical"  Grid.Row="1">
-            <Label Text="{Binding Path=Position , Source={x:Reference Name=carousel}}"></Label>
-            <Label Text="{Binding Path=CurrentItem.Index , Source={x:Reference Name=carousel}}"></Label>
-            <Label Text="{Binding Selected.Index}"></Label>
-            <Button Command="{Binding RemoveCommand}" Grid.Row="1" Text="{Binding Selected.Index}"></Button>
+        <StackLayout Orientation="Horizontal" Grid.Row="1">
+            <Label Text="Position:" />
+            <Label Text="{Binding Path=Position , Source={x:Reference Name=carousel}}"/>
+            <Label Text="CurrentItem :" />
+            <Label Text="{Binding Path=CurrentItem.Index , Source={x:Reference Name=carousel}}"/>
+            <Label Text="Selected: " />
+            <Label Text="{Binding Selected.Index}"/>
         </StackLayout>
-       
-        <CarouselView AutomationId="TheCarouselView" x:Name="carousel" ItemsSource="{Binding Items}" Position="{Binding Position}" Grid.Row="2" CurrentItem="{Binding Selected}" HeightRequest="400">
+        <Button Command="{Binding RemoveCommand}" Grid.Row="2"
+                Text="{Binding Selected.Index}" BackgroundColor="LightGray" TextColor="Black" />
+        <CarouselView AutomationId="TheCarouselView" x:Name="carousel" ItemsSource="{Binding Items}" Position="{Binding Position}" Grid.Row="3"
+                      CurrentItem="{Binding Selected}" >
             <CarouselView.ItemTemplate>
                 <DataTemplate>
                     <gallery:ExampleTemplateCarousel />
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <!--<Frame Margin="15" x:Name="layoutNormal" Grid.Row="3" HeightRequest="150" OutlineColor="#00000088" Padding="5">
+        <Frame Margin="15" x:Name="layoutNormal" Grid.Row="4" OutlineColor="#00000088" Padding="5">
             <Grid>
                 <CarouselView x:Name="carouselNormal" ItemsSource="{Binding Items}" Position="{Binding Position}">
                     <CarouselView.ItemTemplate>
@@ -36,6 +40,6 @@
                     </CarouselView.ItemTemplate>
                 </CarouselView>
             </Grid>
-        </Frame>-->
+        </Frame>
     </Grid>
 </ContentPage>
