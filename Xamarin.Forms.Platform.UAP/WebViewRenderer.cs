@@ -6,8 +6,7 @@ using Xamarin.Forms.Internals;
 using static System.String;
 using Xamarin.Forms.PlatformConfiguration.WindowsSpecific;
 using System.Threading.Tasks;
-using System.Net;
-using Windows.Web.Http;
+
 
 namespace Xamarin.Forms.Platform.UWP
 {
@@ -70,39 +69,7 @@ if(bases.length == 0){
 				uri = new Uri(LocalScheme + url, UriKind.RelativeOrAbsolute);
 			}
 
-			if (Element.Cookies?.Count > 0)
-			{
-				//Set the Cookies...
-				var filter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
-				foreach (Cookie cookie in Element.Cookies.GetCookies(uri))
-				{
-					HttpCookie httpCookie = new HttpCookie(cookie.Name, cookie.Domain, cookie.Path);
-					httpCookie.Value = cookie.Value;
-					filter.CookieManager.SetCookie(httpCookie, false);
-				}
-
-				try
-				{
-					var httpRequestMessage = new Windows.Web.Http.HttpRequestMessage(Windows.Web.Http.HttpMethod.Get, uri);
-					Control.NavigateWithHttpRequestMessage(httpRequestMessage);
-				}
-				catch (System.Exception exc)
-				{
-					Internals.Log.Warning(nameof(WebViewRenderer), $"Failed to load: {uri} {exc}");
-				}
-			}
-			else
-			{
-				try
-				{
-					//No Cookies so just navigate...
-					Control.Source = uri;
-				}
-				catch (System.Exception exc)
-				{
-					Internals.Log.Warning(nameof(WebViewRenderer), $"Failed to load: {uri} {exc}");
-				}
-			}
+			Control.Source = uri;
 		}
 
 		protected override void Dispose(bool disposing)

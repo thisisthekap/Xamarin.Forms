@@ -6,7 +6,6 @@ using Xamarin.Forms.Platform;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Net;
 
 namespace Xamarin.Forms
 {
@@ -38,8 +37,6 @@ namespace Xamarin.Forms
 
 		public static readonly BindableProperty CanGoForwardProperty = CanGoForwardPropertyKey.BindableProperty;
 
-		public static readonly BindableProperty CookiesProperty = BindableProperty.Create(nameof(Cookies), typeof(CookieContainer), typeof(WebView), default(string));
-
 		readonly Lazy<PlatformConfigurationRegistry<WebView>> _platformConfigurationRegistry;
 
 		public WebView()
@@ -69,12 +66,6 @@ namespace Xamarin.Forms
 		public bool CanGoForward
 		{
 			get { return (bool)GetValue(CanGoForwardProperty); }
-		}
-
-		public CookieContainer Cookies
-		{
-			get { return (CookieContainer)GetValue(CookiesProperty); }
-			set { SetValue(CookiesProperty, value); }
 		}
 
 		[TypeConverter(typeof(WebViewSourceTypeConverter))]
