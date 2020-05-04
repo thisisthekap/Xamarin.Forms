@@ -66,7 +66,7 @@ if(bases.length == 0){
 
 			if (!uri.IsAbsoluteUri)
 			{
-				uri = new Uri(LocalScheme + url, UriKind.RelativeOrAbsolute);
+				uri = new Uri(LocalScheme +  url, UriKind.RelativeOrAbsolute);
 			}
 
 			Control.Source = uri;
